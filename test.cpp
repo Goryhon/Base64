@@ -6,107 +6,56 @@ namespace {
 
 	TEST(TxtToBase64, Modulo0) {
 		
-		FillFile("testInput.txt","AbCdEf");
-		EncodeBase64("testInput.txt", "testOutput.txt");
-		EXPECT_EQ("QWJDZEVm", ReadFile("testOutput.txt"));
+		EXPECT_EQ("QWJDZEVm", EncodeBase64("AbCdEf"));
 
-		FillFile("testInput.txt", "Base64IsCool");
-		EncodeBase64("testInput.txt", "testOutput.txt");
-		EXPECT_EQ("QmFzZTY0SXNDb29s", ReadFile("testOutput.txt"));
+		EXPECT_EQ("QmFzZTY0SXNDb29s", EncodeBase64("Base64IsCool"));
 
-		FillFile("testInput.txt", "IHateC++;");
-		EncodeBase64("testInput.txt", "testOutput.txt");
-		EXPECT_EQ("SUhhdGVDKys7", ReadFile("testOutput.txt"));
-
-		remove("testInput.txt");
-		remove("testOutput.txt");
+		EXPECT_EQ("SUhhdGVDKys7", EncodeBase64("IHateC++;"));
 	}
 
 	TEST(TxtToBase64, ModuloNot0) {
 
-		FillFile("testInput.txt", "1@3$5^7*");
-		EncodeBase64("testInput.txt", "testOutput.txt");
-		EXPECT_EQ("MUAzJDVeNyo=", ReadFile("testOutput.txt"));
+		EXPECT_EQ("MUAzJDVeNyo=", EncodeBase64("1@3$5^7*"));
 
-		FillFile("testInput.txt", "HelpMeWithIt:(");
-		EncodeBase64("testInput.txt", "testOutput.txt");
-		EXPECT_EQ("SGVscE1lV2l0aEl0Oig=", ReadFile("testOutput.txt"));
+		EXPECT_EQ("SGVscE1lV2l0aEl0Oig=", EncodeBase64("HelpMeWithIt:("));
 
-		FillFile("testInput.txt", "_WellIGiveUp_");
-		EncodeBase64("testInput.txt", "testOutput.txt");
-		EXPECT_EQ("X1dlbGxJR2l2ZVVwXw==", ReadFile("testOutput.txt"));
+		EXPECT_EQ("X1dlbGxJR2l2ZVVwXw==", EncodeBase64("_WellIGiveUp_"));
 
-		FillFile("testInput.txt", "()()()()()()()()");
-		EncodeBase64("testInput.txt", "testOutput.txt");
-		EXPECT_EQ("KCkoKSgpKCkoKSgpKCkoKQ==", ReadFile("testOutput.txt"));
-
-		remove("testInput.txt");
-		remove("testOutput.txt");
+		EXPECT_EQ("KCkoKSgpKCkoKSgpKCkoKQ==", EncodeBase64("()()()()()()()()"));
 	}
 
 	TEST(Base64ToTxt, Modulo0) {
 
-		FillFile("testInput.txt", "QWJDZEVm");
-		DecodeBase64("testInput.txt", "testOutput.txt");
-		EXPECT_EQ("AbCdEf" , ReadFile("testOutput.txt"));
+		EXPECT_EQ("AbCdEf" , DecodeBase64("QWJDZEVm"));
 
-		FillFile("testInput.txt","QmFzZTY0SXNDb29s");
-		DecodeBase64("testInput.txt", "testOutput.txt");
-		EXPECT_EQ("Base64IsCool", ReadFile("testOutput.txt"));
+		EXPECT_EQ("Base64IsCool", DecodeBase64("QmFzZTY0SXNDb29s"));
 
-		FillFile("testInput.txt", "SUhhdGVDKys7");
-		DecodeBase64("testInput.txt", "testOutput.txt");
-		EXPECT_EQ("IHateC++;", ReadFile("testOutput.txt"));
-
-		remove("testInput.txt");
-		remove("testOutput.txt");
+		EXPECT_EQ("IHateC++;", DecodeBase64("SUhhdGVDKys7"));
 	}
 
 	TEST(Base64ToTxt, ModuloNot0) {
 
-		FillFile("testInput.txt", "MUAzJDVeNyo=");
-		DecodeBase64("testInput.txt", "testOutput.txt");
-		EXPECT_EQ("1@3$5^7*", ReadFile("testOutput.txt"));
+		EXPECT_EQ("1@3$5^7*", DecodeBase64("MUAzJDVeNyo="));
 
-		FillFile("testInput.txt", "SGVscE1lV2l0aEl0Oig=");
-		DecodeBase64("testInput.txt", "testOutput.txt");
-		EXPECT_EQ("HelpMeWithIt:(", ReadFile("testOutput.txt"));
+		EXPECT_EQ("HelpMeWithIt:(", DecodeBase64("SGVscE1lV2l0aEl0Oig="));
 
-		FillFile("testInput.txt", "X1dlbGxJR2l2ZVVwXw==");
-		DecodeBase64("testInput.txt", "testOutput.txt");
-		EXPECT_EQ("_WellIGiveUp_", ReadFile("testOutput.txt"));
+		EXPECT_EQ("_WellIGiveUp_", DecodeBase64("X1dlbGxJR2l2ZVVwXw=="));
 
-		FillFile("testInput.txt", "KCkoKSgpKCkoKSgpKCkoKQ==");
-		DecodeBase64("testInput.txt", "testOutput.txt");
-		EXPECT_EQ("()()()()()()()()", ReadFile("testOutput.txt"));
-
-		remove("testInput.txt");
-		remove("testOutput.txt");
+		EXPECT_EQ("()()()()()()()()", DecodeBase64("KCkoKSgpKCkoKSgpKCkoKQ=="));
 	}
 	
 	TEST(Base64ToTxt, EmptyString) {
 
-		FillFile("testInput.txt", "");
-		DecodeBase64("testInput.txt", "testOutput.txt");
-		EXPECT_EQ("", ReadFile("testOutput.txt"));
+		EXPECT_EQ("", DecodeBase64(""));
 
-		FillFile("testInput.txt", "");
-		EncodeBase64("testInput.txt", "testOutput.txt");
-		EXPECT_EQ("", ReadFile("testOutput.txt"));
-
-		remove("testInput.txt");
-		remove("testOutput.txt");
+		EXPECT_EQ("", EncodeBase64(""));
 	}
 
 	TEST(Base64ToTxt, Error){
 
-		FillFile("testInput.txt", "MUAzJDVeNyo===");
-		DecodeBase64("testInput.txt", "testOutput.txt");
-		EXPECT_EQ("ERROR There Are some Garbage bits .... !!!!....(This is Not Base64 code)", ReadFile("testOutput.txt"));
+		EXPECT_EQ("ERROR There Are some Garbage bits .... !!!!....(This is Not Base64 code)", DecodeBase64("MUAzJDVeNyo==="));
 
-		FillFile("testInput.txt", "MUAzJDVeNyo");
-		DecodeBase64("testInput.txt", "testOutput.txt");
-		EXPECT_EQ("ERROR There Are some Garbage bits .... !!!!....(This is Not Base64 code)", ReadFile("testOutput.txt"));
+		EXPECT_EQ("ERROR There Are some Garbage bits .... !!!!....(This is Not Base64 code)", DecodeBase64("MUAzJDVeNyo"));
 	}
 }
 
