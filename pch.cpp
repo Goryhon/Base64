@@ -4,14 +4,14 @@ string EncodeBase64(string input) {
 
 	string base64Symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-	string to_ret = '';
+	string to_ret = "";
 
 	unsigned char holder, holderSize;
 
 	holderSize = 0;
 	holder = 0;
 
-	for (int i = 0; i < input.lenght();i++) {
+	for (int i = 0; i < input.length();i++) {
 		holder += input[i] >> holderSize;
 		to_ret += (base64Symbols[holder >> 2]);
 		holderSize += 2;
@@ -35,7 +35,7 @@ string EncodeBase64(string input) {
 
 string DecodeBase64(string input) {
 
-	string to_ret;
+	string to_ret="";
 
 	int count= 0;
 	unsigned char holder,temp1, holderSize;
@@ -47,7 +47,7 @@ string DecodeBase64(string input) {
 	holderSize = 0;
 	holder = 0;
 
-	for (int i = 0; i < input.lenght();i++) {
+	for (int i = 0; i < input.length();i++) {
 		temp1 = findInArray(input[i]);
 		if (temp1 != 64) {
 			holder += temp1 << 2 >> holderSize;
