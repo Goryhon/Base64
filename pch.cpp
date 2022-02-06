@@ -63,7 +63,7 @@ string DecodeBase64(string input) {
 		else if(temp1 == 64){
 			EqSigns ++;
 			hadEqSign = true;
-			count += 2;
+			count -= 2;
 			count %= 8;
 		}
 		else{
@@ -71,9 +71,10 @@ string DecodeBase64(string input) {
 		}
 	}
 
-	if(EqSigns > 2){
+	if((EqSigns > 2)||(count != 0)){
 		Error = true;
-	}
+    }
+//    cout << count << endl;
 
 	if(Error){
 
@@ -118,29 +119,3 @@ unsigned char findInArray(char finding) {
 	return to_ret;
 }
 
-string ReadFile(string fileName) {
-	ifstream fin;
-	fin.open(fileName);
-
-	char reader;
-	string to_ret = "";
-
-	while (fin >> reader) {
-		to_ret += reader;
-	}
-
-	fin.close();
-
-	return to_ret;
-}
-
-void FillFile(string fileName, string info) {
-	ofstream fout;
-	fout.open(fileName);
-
-	for (int i = 0; i < info.length(); i++) {
-		fout << info[i];
-	}
-
-	fout.close();
-}
