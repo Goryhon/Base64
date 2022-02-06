@@ -11,8 +11,8 @@
 using namespace std;
 
 //Base64.h
-void EncodeBase64(string fileName, string outputFileName = "encodeOutput.txt");
-void DecodeBase64(string fileName, string outputFileName = "decodeOutput.txt");
+string EncodeBase64(string input);
+string DecodeBase64(string input);
 unsigned char findInArray(char finding);
 string ReadFile(string fileName);
 void FillFile(string fileName, string info);
