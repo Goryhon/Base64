@@ -83,6 +83,20 @@ namespace {
 		remove("testInput.txt");
 		remove("testOutput.txt");
 	}
+	
+	TEST(Base64ToTxt, EmptyString) {
+
+		FillFile("testInput.txt", "");
+		DecodeBase64("testInput.txt", "testOutput.txt");
+		EXPECT_EQ("", ReadFile("testOutput.txt"));
+
+		FillFile("testInput.txt", "");
+		EncodeBase64("testInput.txt", "testOutput.txt");
+		EXPECT_EQ("", ReadFile("testOutput.txt"));
+
+		remove("testInput.txt");
+		remove("testOutput.txt");
+	}
 
 	TEST(Base64ToTxt, Error){
 
