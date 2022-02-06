@@ -1,54 +1,44 @@
 #include "pch.h"
 
-void EncodeBase64(string fileName, string outputFileName) {
+string EncodeBase64(string input) {
 
 	string base64Symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-	ifstream fin;
-	ofstream fout;
-	fin.open(fileName);
-	fout.open(outputFileName);
+	string to_ret = '';
 
-	unsigned char reader, holder, temp, holderSize;
+	unsigned char holder, holderSize;
 
 	holderSize = 0;
 	holder = 0;
 
-	while (fin >> reader) {
-		temp = reader;
-		holder += temp >> holderSize;
-		fout << (base64Symbols[holder >> 2]);
+	for (int i = 0; i < input.lenght();i++) {
+		holder += input[i] >> holderSize;
+		to_ret += (base64Symbols[holder >> 2]);
 		holderSize += 2;
-		holder = reader << (8 - holderSize);
+		holder = input[i] << (8 - holderSize);
 		if (holderSize == 6) {
-			fout << (base64Symbols[holder >> 2]);
+			to_ret += (base64Symbols[holder >> 2]);
 			holder = 0;
 			holderSize = 0;
 		}
 	}
 
 	if (holderSize > 0) {
-		fout << (base64Symbols[holder >> 2]);
+		to_ret += (base64Symbols[holder >> 2]);
 		while (holderSize < 6) {
 			holderSize += 2;
-			fout << '=';
+			to_ret += '=';
 		}
 	}
-
-	fin.close();
-	fout.close();
+	return to_ret;
 }
 
-void DecodeBase64(string fileName, string outputFileName) {
+string DecodeBase64(string input) {
 
-	ifstream fin;
-	ofstream fout;
-	fin.open(fileName);
-	fout.open(outputFileName);
+	string to_ret;
 
 	int count= 0;
-	char reader;
-	unsigned char holder, temp1, holderSize;
+	unsigned char holder,temp1, holderSize;
 
 	bool hadEqSign = false;
 	bool Error = false;
@@ -57,13 +47,13 @@ void DecodeBase64(string fileName, string outputFileName) {
 	holderSize = 0;
 	holder = 0;
 
-	while (fin >> reader) {
-		temp1 = findInArray(reader);
+	for (int i = 0; i < input.lenght();i++) {
+		temp1 = findInArray(input[i]);
 		if (temp1 != 64) {
 			holder += temp1 << 2 >> holderSize;
 			holderSize += 6;
 			if (holderSize > 8) {
-				fout << holder;
+				to_ret += holder;
 				holderSize -= 8;
 				holder = temp1 << (8 - holderSize);
 			}
@@ -86,22 +76,18 @@ void DecodeBase64(string fileName, string outputFileName) {
 	}
 
 	if(Error){
-		fout.close();
 
-		fout.open(outputFileName);
 
-		fout<<"ERROR There Are some Garbage bits .... !!!!....(This is Not Base64 code)";
+		to_ret = "ERROR There Are some Garbage bits .... !!!!....(This is Not Base64 code)";
 	}
 	else{
 
 		if (holderSize > 0 && !hadEqSign) {
-			fout << holder;
+			to_ret += holder;
 		}
 
 	}
-
-	fin.close();
-	fout.close();
+return  to_ret;
 }
 
 unsigned char findInArray(char finding) {
